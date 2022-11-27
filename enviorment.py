@@ -35,11 +35,18 @@ class Enviorment:
     
     def select_random_cluster_heades(self):
         ch_nodes = ['antenna']
-        for i in range(7):
+        iterations = list(range(7))
+        used_nodes = []
+        for i in iterations:
             x = random.randint(0,self.__amount-1)
-            self.__nodes_colors[x] = 'red'
-            ch_nodes.append(list(self.__graph)[x])
+            if x not in used_nodes:
+                self.__nodes_colors[x] = 'red'
+                ch_nodes.append(list(self.__graph)[x])
+                used_nodes.append(list(self.__graph)[x])
+            else:
+                iterations.append(iterations[-1]+1)
         nx.add_path(self.__graph, ch_nodes)
+        print(ch_nodes)
     
     def draw_network(self):
         nx.draw(self.__graph, pos=self.__pos, node_color=self.__nodes_colors, node_size=self.__node_size)
